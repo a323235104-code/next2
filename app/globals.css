@@ -1,26 +1,108 @@
 @import "tailwindcss";
 
+/* 카드뉴스 레퍼런스에서 뽑은 색 */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fdfdf9; /* 종이 바탕 (카드뉴스 배경과 같은 색) */
+  --foreground: #111111; /* 굵은 검정 제목 */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: #fdfdf9;
+  --color-ink: #111111;
+  --color-forest: #0f2a1c;   /* 버튼·로고의 짙은 초록검정 */
+  --color-pink: #ff3d94;     /* 형광 분홍: 라벨·반짝이 */
+  --color-cyan: #2cb6f0;     /* 하늘색 궤도선 */
+  --color-lime: #b6e37a;     /* 연두 붓선 */
+  --color-sage: #dfe6cc;     /* 꽃 배지 바탕 */
+  --color-camellia: #e8202f; /* 동백 빨강 */
+  --color-leaf: #1d7a46;     /* 잎 초록 */
+  --font-sans: var(--font-noto-sans-kr), system-ui, sans-serif;
+  --font-heading: var(--font-black-han-sans), var(--font-noto-sans-kr), sans-serif;
+  --font-display: var(--font-archivo-black), sans-serif;
+  --font-script: var(--font-dancing-script), cursive;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  word-break: keep-all; /* 한글을 단어 중간에서 자르지 않기 */
+  overflow-wrap: anywhere;
+}
+
+/* 흐르는 띠 */
+.marquee {
+  animation: marquee 28s linear infinite;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* 캐릭터가 살짝 통통 튀는 움직임 */
+.bob {
+  animation: bob 3.2s ease-in-out infinite;
+}
+.bob-delay {
+  animation-delay: -1.6s;
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+}
+
+/* 반짝이 깜빡임 */
+.twinkle {
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.6);
+    opacity: 0.55;
+  }
+}
+
+/* 알림 신청 완료: 톡 튀어나오기 */
+.pop {
+  animation: pop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes pop {
+  from {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .marquee,
+  .bob,
+  .twinkle,
+  .pop {
+    animation: none;
+  }
 }
