@@ -82,21 +82,6 @@ function Bubble({ who, children, img, flip = false }: { who: string; children: R
 export default function Home() {
   return (
     <>
-      {/* ── 상단 바 ── */}
-      <header className="sticky top-0 z-40 border-b border-ink/10 bg-paper/90 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4">
-          <a href="#top" className="flex items-center gap-2">
-            <Image src={logo} alt="동백마을 로고" className="h-10 w-auto" sizes="48px" />
-            <span className="hidden text-sm sm:inline">
-              A2O LITE × <b className="font-black">DONGBAEK VILLAGE</b>
-            </span>
-          </a>
-          <a href="#notify" className="rounded-full bg-forest px-5 py-2.5 text-sm font-bold text-white transition-transform hover:-translate-y-0.5">
-            알림받기
-          </a>
-        </div>
-      </header>
-
       <main id="top" className="flex-1 overflow-x-clip">
         {/* ── 1. 첫 화면: 동백숲에 들어온 A2O LITE 로고 ── */}
         <section aria-labelledby="hero-title" className="relative px-4 pb-16 pt-10 sm:pt-16">
@@ -104,7 +89,7 @@ export default function Home() {
           <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
             <div className="relative">
               <Eyebrow />
-              <h1 id="hero-title" className="font-heading text-[2.9rem] leading-[1.08] tracking-[-0.03em] sm:text-7xl">
+              <h1 id="hero-title" className="font-heading text-[2.9rem] leading-[1.08] tracking-[-0.03em] sm:text-7xl lg:text-6xl xl:text-7xl">
                 12월, 동백이 피면
                 <br />
                 가장 먼저 알려줄게.
@@ -379,7 +364,7 @@ export default function Home() {
 
       <footer className="border-t-2 border-ink px-4 pb-28 pt-12 sm:pb-12">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 text-center">
-          <BloomMark className="text-5xl sm:text-7xl" />
+          <BloomMark className="text-5xl sm:text-7xl" bloomClassName="text-forest" wayClassName="text-pink" />
           <div className="flex items-center gap-3">
             <Image src={logo} alt="동백마을 로고" className="h-12 w-auto" sizes="56px" />
             <p className="text-sm">

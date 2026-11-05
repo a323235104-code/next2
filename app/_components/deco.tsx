@@ -99,21 +99,27 @@ export function BloomMark({
   className = "",
   cut = "var(--color-paper)",
   stacked = false,
+  bloomClassName = "",
+  wayClassName = "",
 }: {
   className?: string;
   /** 반짝이 구멍 색 = 뒤 배경색 */
   cut?: string;
   /** BLOOM / YOUR WAY 두 줄 */
   stacked?: boolean;
+  /** BLOOM 부분만 따로 색 지정 (예: "text-forest") */
+  bloomClassName?: string;
+  /** YOUR WAY 부분만 따로 색 지정 (예: "text-pink") */
+  wayClassName?: string;
 }) {
   return (
     <span role="img" className={`font-display tracking-[-0.04em] ${className}`} aria-label="BLOOM YOUR WAY">
-      <span aria-hidden="true" className="whitespace-nowrap">
+      <span aria-hidden="true" className={`whitespace-nowrap ${bloomClassName}`}>
         BL<BloomO cut={cut} />
         <BloomO cut={cut} />M
       </span>
       {stacked ? <br /> : " "}
-      <span aria-hidden="true" className="whitespace-nowrap">
+      <span aria-hidden="true" className={`whitespace-nowrap ${wayClassName}`}>
         YOUR WAY
       </span>
     </span>

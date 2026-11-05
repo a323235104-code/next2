@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo_Black, Black_Han_Sans, Dancing_Script, Noto_Sans_KR } from "next/font/google";
+import { SiteHeader } from "./_components/site-header";
 import "./globals.css";
 
 // 한글 글꼴은 글자 수가 많아 미리 받지 않고(preload: false) 필요한 글자만 내려받습니다.
@@ -40,9 +41,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="ko"
+      data-scroll-behavior="smooth"
       className={`${notoSansKr.variable} ${blackHanSans.variable} ${archivoBlack.variable} ${dancingScript.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <SiteHeader />
+        {children}
+      </body>
     </html>
   );
 }
