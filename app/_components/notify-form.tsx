@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { subscribeNotify } from "@/app/notify/actions";
 import dongbaeki from "@/public/img/dongbaeki.png";
 import ssiati from "@/public/img/ssiati.png";
 import { Sparkle } from "./deco";
@@ -25,6 +26,7 @@ export function NotifyForm() {
   const [marketing, setMarketing] = useState(false);
   const [error, setError] = useState("");
   const [done, setDone] = useState(false);
+  const [pending, startTransition] = useTransition();
 
   const allAgreed = privacy && marketing;
 
@@ -34,14 +36,19 @@ export function NotifyForm() {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (pending) return;
     if (!PHONE_RE.test(phone)) return setError("휴대폰 번호를 정확히 입력해 줘. (예: 010-1234-5678)");
     if (!channels.kakao && !channels.sms) return setError("알림 받을 방법을 하나 이상 골라 줘.");
     if (!privacy || !marketing) return setError("필수 동의 항목에 모두 동의해 줘.");
     setError("");
 
-    // TODO: 발송 업체(카카오 브랜드 메시지 / 문자)가 정해지면 여기서 서버로 전송합니다.
-    // 지금은 화면만 동작하고, 입력한 번호는 어디에도 저장·전송되지 않습니다.
-    setDone(true);
+    const website = String(new FormData(e.currentTarget).get("website") ?? "");
+    // 서버에서 한 번 더 검사한 뒤 구글 스프레드시트에 저장합니다.
+    startTransition(async () => {
+      const result = await subscribeNotify({ phone, ...channels, privacy, marketing, website });
+      if (result.ok) setDone(true);
+      else setError(result.error);
+    });
   }
 
   const card = "relative rounded-[2rem] border-2 border-ink bg-white p-6 shadow-[8px_8px_0_var(--color-ink)] sm:p-8";
@@ -80,6 +87,9 @@ export function NotifyForm() {
     <form onSubmit={handleSubmit} noValidate className={card}>
       <Sparkle className="twinkle absolute -right-4 -top-4 h-10 w-10" />
       <p className="mb-6 font-heading text-2xl sm:text-3xl">12월 출시 알림 신청</p>
+
+      {/* 봇 막기용 숨은 칸 (사람에게는 보이지 않음) */}
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 opacity-0" />
 
       <label htmlFor="phone" className="mb-2 block font-bold">
         휴대폰 번호
@@ -154,9 +164,16 @@ export function NotifyForm() {
 
       <button
         type="submit"
-        className="flex w-full items-center justify-center gap-2 rounded-2xl bg-forest py-4 text-lg font-bold text-white shadow-[0_6px_0_-1px_var(--color-pink)] transition-transform hover:-translate-y-0.5"
+        disabled={pending}
+        className="flex w-full items-center justify-center gap-2 rounded-2xl bg-forest py-4 text-lg font-bold text-white shadow-[0_6px_0_-1px_var(--color-pink)] transition-transform hover:-translate-y-0.5 disabled:opacity-60"
       >
-        알림받기 <span aria-hidden="true">→</span>
+        {pending ? (
+          "씨앗 심는 중…"
+        ) : (
+          <>
+            알림받기 <span aria-hidden="true">→</span>
+          </>
+        )}
       </button>
     </form>
   );

@@ -27,10 +27,11 @@
 html {
   scroll-behavior: smooth;
   color-scheme: light;
+  /* 바탕색은 html에 둡니다. body에 두면 화면 뒤(-z) 배경 애니메이션을 가립니다. */
+  background: var(--background);
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
   word-break: keep-all; /* 한글을 단어 중간에서 자르지 않기 */

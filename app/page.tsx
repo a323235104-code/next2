@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { BloomMark, FlowerBadge, Icon, LimeStroke, Orbit, PinkTag, Sparkle, Torn } from "./_components/deco";
+import { FallingCharacters } from "./_components/falling-characters";
 import { NotifyForm } from "./_components/notify-form";
 import { StickyCta } from "./_components/sticky-cta";
 
@@ -81,7 +82,9 @@ function Bubble({ who, children, img, flip = false }: { who: string; children: R
 
 export default function Home() {
   return (
-    <>
+    <div className="relative flex flex-1 flex-col">
+      {/* 페이지 전체(본문+푸터)를 무대로, 캐릭터가 맨 아래까지 내려와 깔립니다 */}
+      <FallingCharacters />
       <main id="top" className="flex-1 overflow-x-clip">
         {/* ── 1. 첫 화면: 동백숲에 들어온 A2O LITE 로고 ── */}
         <section aria-labelledby="hero-title" className="relative px-4 pb-16 pt-10 sm:pt-16">
@@ -376,6 +379,6 @@ export default function Home() {
       </footer>
 
       <StickyCta />
-    </>
+    </div>
   );
 }
